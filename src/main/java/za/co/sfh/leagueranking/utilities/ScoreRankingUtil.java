@@ -17,6 +17,10 @@ public class ScoreRankingUtil {
           rankingMap.clear();
      }
 
+     public Map<Integer, InternalTracker> getAllEntries() {
+          return rankingMap;
+     }
+
      /**
       * Add a new game score into the ranking map.
       *
@@ -109,10 +113,9 @@ public class ScoreRankingUtil {
                          rankingSlot = entry.getValue().getScoreRanking() + 1;
                     }
                } else {
-                    if (score < entry.getKey()) { // add at the end and cater for possible duplicates up the ladder
-                         if (rankingSlot < entry.getValue().getScoreRanking() + entry.getValue().getScoreCount()) {
-                              rankingSlot = entry.getValue().getScoreRanking() + entry.getValue().getScoreCount();
-                         }
+                    // add at the end and cater for possible duplicates up the ladder
+                    if (score < entry.getKey() && rankingSlot < entry.getValue().getScoreRanking() + entry.getValue().getScoreCount()) {
+                         rankingSlot = entry.getValue().getScoreRanking() + entry.getValue().getScoreCount();
                     }
                }
           }

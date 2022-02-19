@@ -16,24 +16,25 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/team")
+@RequestMapping("/api")
 public class TeamController {
 
      private final TeamManagementService teamManagementService;
 
-     @GetMapping()
-     public ResponseEntity<List<LeagueTeam>> findAllTeams() {
-          List<LeagueTeam> leagueTeamList = teamManagementService.findAllTeamDetailsUnsorted();
-          return new ResponseEntity<>(leagueTeamList, HttpStatus.OK);
-     }
-
-     @GetMapping("/{team-name}")
+     @GetMapping("/team/{team-name}")
      public ResponseEntity<LeagueTeam> findTeamInfoByName(@PathVariable(name = "team-name") final String teamName) {
           LeagueTeam leagueTeam = teamManagementService.retrieveLeagueTeamDetails(teamName);
           return new ResponseEntity<>(leagueTeam, HttpStatus.OK);
      }
 
-     @GetMapping("/sorted")
+
+     @GetMapping("/teams")
+     public ResponseEntity<List<LeagueTeam>> findAllTeams() {
+          List<LeagueTeam> leagueTeamList = teamManagementService.findAllTeamDetailsUnsorted();
+          return new ResponseEntity<>(leagueTeamList, HttpStatus.OK);
+     }
+
+     @GetMapping("/teams/sorted")
      public ResponseEntity<List<LeagueTeam>> findTeamInfoSorted() {
           List<LeagueTeam> leagueTeamList = teamManagementService.findAllTeamsRankedAndSorted();
           return new ResponseEntity<>(leagueTeamList, HttpStatus.OK);

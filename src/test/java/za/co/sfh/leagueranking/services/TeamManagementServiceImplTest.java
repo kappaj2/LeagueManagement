@@ -39,8 +39,8 @@ class TeamManagementServiceImplTest {
 
           teamManagementService.addNewTeamResults(teamA, teamB);
 
-          LeagueTeam leagueTeamA = teamManagementService.retrieveLeagueTeamDetails(teamAName);
-          LeagueTeam leagueTeamB = teamManagementService.retrieveLeagueTeamDetails(teamBName);
+          var leagueTeamA = teamManagementService.retrieveLeagueTeamDetails(teamAName);
+          var leagueTeamB = teamManagementService.retrieveLeagueTeamDetails(teamBName);
 
           assertEquals(0, leagueTeamA.getTeamPoints());
           assertEquals(3, leagueTeamB.getTeamPoints());
@@ -93,8 +93,8 @@ class TeamManagementServiceImplTest {
 
           teamManagementService.addNewTeamResults(teamA, teamB);
 
-          LeagueTeam leagueTeamA = teamManagementService.retrieveLeagueTeamDetails(teamAName);
-          LeagueTeam leagueTeamB = teamManagementService.retrieveLeagueTeamDetails(teamBName);
+          var leagueTeamA = teamManagementService.retrieveLeagueTeamDetails(teamAName);
+          var leagueTeamB = teamManagementService.retrieveLeagueTeamDetails(teamBName);
 
           assertEquals(1, leagueTeamA.getTeamPoints());
           assertEquals(1, leagueTeamB.getTeamPoints());

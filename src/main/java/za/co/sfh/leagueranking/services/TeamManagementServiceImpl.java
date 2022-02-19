@@ -8,7 +8,9 @@ import za.co.sfh.leagueranking.models.LeagueTeam;
 import za.co.sfh.leagueranking.persistence.LeagueTeamResultsData;
 import za.co.sfh.leagueranking.utilities.ScoreRankingUtil;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -67,10 +69,10 @@ public class TeamManagementServiceImpl implements TeamManagementService {
      @Override
      public List<LeagueTeam> findAllTeamsRankedAndSorted() {
 
-          List<LeagueTeam> allLeagueTeamsList = leagueTeamResultsData.getAllLeagueTeams();
-          allLeagueTeamsList.forEach(entry -> {
-               scoreRankingUtil.addNewScore(entry.getTeamPoints());
-          });
+          var allLeagueTeamsList = leagueTeamResultsData.getAllLeagueTeams();
+          allLeagueTeamsList.forEach(entry ->
+                  scoreRankingUtil.addNewScore(entry.getTeamPoints())
+          );
 
           /*
                So we now have all the team points ranked. Assign to the different teams.
@@ -81,9 +83,23 @@ public class TeamManagementServiceImpl implements TeamManagementService {
           });
 
           /*
-               Now order ia ranking and then name
+               Now order via ranking and then name
            */
-          return allLeagueTeamsList;
+          var compareByRankAndName = Comparator
+                  .comparing(LeagueTeam::getRanking)
+                  .thenComparing(LeagueTeam::getTeamName);
+
+          var sortedLeagueTeamList = allLeagueTeamsList.stream()
+                  .sorted(compareByRankAndName)
+                  .collect(Collectors.toList());
+
+          log.info("========================== Task formatted output begin ==========================");
+          sortedLeagueTeamList.forEach(entry ->
+                  log.info("{}. {}, {} {}", entry.getRanking(), entry.getTeamName(), entry.getTeamPoints(), entry.getTeamPoints() == 1 ? "pt" : "pts")
+          );
+          log.info("========================== Task formatted output end ==========================");
+
+          return sortedLeagueTeamList;
      }
 
      /**

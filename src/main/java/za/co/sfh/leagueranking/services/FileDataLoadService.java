@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import za.co.sfh.leagueranking.models.LeagueTeam;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.stream.Stream;
@@ -29,7 +28,7 @@ public class FileDataLoadService {
       */
      public void loadFileFromSourceFolder() throws IOException {
 
-          File file = ResourceUtils.getFile(fileName);
+          var file = ResourceUtils.getFile(fileName);
 
           try (Stream<String> stream = Files.lines(file.toPath())) {
                stream.forEach(line -> unpackFileLine(line));
@@ -43,6 +42,7 @@ public class FileDataLoadService {
       * @param line The line to consume and unpack
       */
      private void unpackFileLine(String line) {
+
           log.debug("Reading file data line : [{}]", line);
 
           var teamsInfo = line.split("[,]");

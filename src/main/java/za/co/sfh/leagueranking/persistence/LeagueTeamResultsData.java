@@ -4,11 +4,11 @@ import org.springframework.stereotype.Component;
 import za.co.sfh.leagueranking.exceptions.LeagueTeamNotFound;
 import za.co.sfh.leagueranking.models.LeagueTeam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 /**
  * This is a stand-in replacement for persistent data to a datastore of choice.
@@ -25,8 +25,7 @@ public class LeagueTeamResultsData {
      }
 
      public List<LeagueTeam> getAllLeagueTeams() {
-          return leagueTeamsMap.values().stream()
-                  .collect(Collectors.toList());
+          return new ArrayList<>(leagueTeamsMap.values());
      }
 
      public void addLeagueTeam(LeagueTeam leagueTeam) {
@@ -35,12 +34,12 @@ public class LeagueTeamResultsData {
 
      public void updateLeagueTeamScore(LeagueTeam leagueTeam) {
 
-          Optional<LeagueTeam> leagueTeamOpt = getLeagueTeam(leagueTeam.getTeamName());
+          var leagueTeamOpt = getLeagueTeam(leagueTeam.getTeamName());
 
           if (leagueTeamOpt.isPresent()) {
-               var leagueTeam1 = leagueTeamOpt.get();
-               leagueTeam1.setTeamPoints(leagueTeam1.getTeamPoints() + leagueTeam.getTeamPoints());
-               leagueTeamsMap.replace(leagueTeam.getTeamName(), leagueTeam1);
+               var leagueTeamRetrieved = leagueTeamOpt.get();
+               leagueTeamRetrieved.setTeamPoints(leagueTeam.getTeamPoints());
+               leagueTeamsMap.replace(leagueTeam.getTeamName(), leagueTeamRetrieved);
           } else {
                throw new LeagueTeamNotFound(String.format("Cannot find league team %s", leagueTeam.getTeamName()));
           }
