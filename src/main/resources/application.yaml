@@ -1,0 +1,8 @@
+logging:
+  level:
+    ROOT: INFO
+    org.springframework: INFO
+    za.co.sfh.leagueranking: DEBUG
+
+application:
+  file-name: //opt/testdata/testdata.txt
