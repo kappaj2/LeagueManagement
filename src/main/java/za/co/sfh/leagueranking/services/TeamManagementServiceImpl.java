@@ -69,6 +69,8 @@ public class TeamManagementServiceImpl implements TeamManagementService {
      @Override
      public List<LeagueTeam> findAllTeamsRankedAndSorted() {
 
+          scoreRankingUtil.resetMap();
+
           var allLeagueTeamsList = leagueTeamResultsData.getAllLeagueTeams();
           allLeagueTeamsList.forEach(entry ->
                   scoreRankingUtil.addNewScore(entry.getTeamPoints())
